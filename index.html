@@ -4,10 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Codewars leaderboard</title>
+
+ 
+  <link rel="stylesheet" href="style.css">
+
+   <script src="index.mjs" type="module"></script>
 </head>
 <body>
-  
+   <main>
+    <h1>Codewars Leaderboard</h1>
+
+    <p>Enter the Codewars usernames you want to compare.</p>
+
+    <!-- Form for entering usernames -->
+    <form id="user-form">
+      <label for="usernames">Codewars usernames</label>
+
+      <input
+        type="text"
+        id="usernames"
+        name="usernames"
+        placeholder="CodeYourFuture,40thieves,SallyMcGrath" 
+        aria-describedby="input-help"
+        required
+      >
+
+      <p id="input-help">
+        Separate usernames with commas.
+      </p>
+
+      <button type="submit">Add users</button>
+    </form>
+
+    <!-- Display error or success messages -->
+    <p id="message" role="status" aria-live="polite"></p>
+
+    <!-- Display the usernames entered by the user -->
+    <section aria-labelledby="users-heading">
+      <h2 id="users-heading">Users to compare</h2>
+      <ul id="user-list"></ul>
+    </section>
+      </main>
 </body>
 
-<script src="index.mjs" type="module"></script>
 </html>
