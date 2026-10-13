@@ -1,0 +1,66 @@
+/* Basic font and page colours */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #222;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Main content */
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Input label */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Input label size */
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Style the submit button */
+button {
+  padding: 10px 16px;
+  background-color: #2457a7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/*  Clearly show when the button receives keyboard focus */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #e09b00;
+  outline-offset: 2px;
+}
+
+/* Space for message*/
+#message {
+  margin-top: 16px;
+}
+
+/* Highlight error messages */
+#message.error {
+  color: #b00020;
+}
+
+/* Space out the usernames in the list */
+li {
+  margin-bottom: 8px;
+}
