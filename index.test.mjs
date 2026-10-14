@@ -8,26 +8,46 @@
 // how it works.
 
 import test from "node:test";
-import assert from "node:assert";
+import assert from "node:assert/strict";
 import nock from "nock";
-import { makeFetchRequest } from "./index.mjs";
+import { makeFetchRequest, sortValidUsers } from "./functions.js";
 
 test("mocks a fetch function", async () => {
-  // Create a fetch request "mock" using the nock library, which "replaces"
-  // real requests with fake ones that we can control in the test using nock
-  // functions.
-  // In this example, we set up nock so that it looks for GET requests to
-  // https://example.com/test (no other URLs will work) and responds with a 200
-  // HTTP status code, and the body {"user": "someone"}.
-  const scope = nock("https://example.com").get("/test").reply(200, JSON.stringify({ user: "someone" }));
+const scope = nock("https://www.codewars.com")
+.get("/api/v1/users/someone")
+.reply(200, { username: "someone" });
 
-  // Check that the response we got back included the fake body we set up.
-  const response = await makeFetchRequest();
-  const parsedResponse = await response.json();
-  assert(parsedResponse.user === "someone");
+const response = await makeFetchRequest("someone");
+const parsedResponse = await response.json();
 
-  // Ensure that a fetch request has been replaced by the nock library. This
-  // helps ensure that you're not making real fetch requests that don't match
-  // the nock configuration.
-  assert(scope.isDone() === true, "No matching fetch request has been made");
+assert.equal(parsedResponse.username, "someone");
+assert.equal(scope.isDone(), true, "No matching fetch request has been made");
+});
+
+test("sorts users by overall ranking", () => {
+  const users = [
+    { username: "user1", ranks: { overall: { score: 100 } } },
+    { username: "user2", ranks: { overall: { score: 200 } } },
+    { username: "user3", ranks: { overall: { score: 50 } } }
+  ];
+
+  const sortedUsers = sortValidUsers(users, "overall");
+
+  assert.equal(sortedUsers[0].username, "user2");
+  assert.equal(sortedUsers[1].username, "user1");
+  assert.equal(sortedUsers[2].username, "user3");
+});
+
+test("sorts users by language ranking", () => {
+  const users = [
+    { username: "user1", ranks: { languages: { javascript: { score: 100 } } } },
+    { username: "user2", ranks: { languages: { javascript: { score: 200 } } } },
+    { username: "user3", ranks: { languages: { javascript: { score: 50 } } } }
+  ];
+
+  const sortedUsers = sortValidUsers(users, "javascript");
+
+  assert.equal(sortedUsers[0].username, "user2");
+  assert.equal(sortedUsers[1].username, "user1");
+  assert.equal(sortedUsers[2].username, "user3");
 });

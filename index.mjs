@@ -1,4 +1,4 @@
-import { makeFetchRequest } from "./functions.js";
+import { makeFetchRequest, sortValidUsers} from "./functions.js";
 
 const state = {
   usernames: [],
@@ -40,7 +40,6 @@ async function handleFormSubmit(event) {
   message.className = "";
 
   // Remove the usernames displayed by the previous submission.
-  userList.replaceChildren();
     leaderboardBody.replaceChildren();
   rankingSection.hidden = true;
 
@@ -61,14 +60,6 @@ await getValidUsers();
 
    // Display each username in the list.
     state.validUsers.forEach(function (user) {
-      // Create a new list item.
-      const listItem = document.createElement("li");
-
-      // Add the username as text.
-      listItem.textContent = user.username;
-
-      // Add the list item to the page.
-      userList.appendChild(listItem);
 
       // Find the languages available for the leaderboard.
       Object.keys(user.ranks.languages || {}).forEach(function (language) {
@@ -155,17 +146,7 @@ export function getRankingScore(user, language) {
 function displayLeaderboard() {
   leaderboardBody.replaceChildren();
 
-  const users = state.validUsers
-    .filter(function (user) {
-      return getRankingScore(user, state.selectedLanguage) !== undefined;
-    })
-    .sort(function (a, b) {
-      return (
-        getRankingScore(b, state.selectedLanguage) -
-        getRankingScore(a, state.selectedLanguage)
-      );
-    });
-
+  const users = sortValidUsers(state.validUsers, state.selectedLanguage);
   users.forEach(function (user, index) {
     const row = document.createElement("tr");
 

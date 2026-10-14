@@ -61,9 +61,7 @@ input:focus-visible {
 }
 
 /* Space out the usernames in the list */
-li {
-  margin-bottom: 8px;
-}
+
 .top-user {
   background-color: #fff1a8;
   font-weight: bold;
