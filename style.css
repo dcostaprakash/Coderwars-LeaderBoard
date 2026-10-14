@@ -64,3 +64,20 @@ input:focus-visible {
 li {
   margin-bottom: 8px;
 }
+.top-user {
+  background-color: #fff1a8;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}

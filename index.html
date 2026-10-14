@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+content="Compare Codewars users and explore their rankings across programming languages."
+/>
   <title>Codewars leaderboard</title>
 
- 
   <link rel="stylesheet" href="style.css">
 
    <script src="index.mjs" type="module"></script>
@@ -26,14 +28,13 @@
         name="usernames"
         placeholder="CodeYourFuture,40thieves,SallyMcGrath" 
         aria-describedby="input-help"
-        required
       >
 
       <p id="input-help">
         Separate usernames with commas.
       </p>
 
-      <button type="submit">Add users</button>
+      <button type="button" id="add-users">Add users</button>
     </form>
 
     <!-- Display error or success messages -->
@@ -43,6 +44,29 @@
     <section aria-labelledby="users-heading">
       <h2 id="users-heading">Users to compare</h2>
       <ul id="user-list"></ul>
+    </section>
+
+    <!-- Display the ranking dropdown and leaderboard table -->
+    <section id="ranking-section" aria-labelledby="ranking-heading" hidden>
+      <h2 id="ranking-heading">Leaderboard rankings</h2>
+
+      <label for="ranking-select">Choose a ranking</label>
+
+      <select id="ranking-select">
+        <option value="overall">Overall ranking</option>
+      </select>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Clan</th>
+            <th scope="col">Score</th>
+          </tr>
+        </thead>
+
+        <tbody id="leaderboard-body"></tbody>
+      </table>
     </section>
       </main>
 </body>
