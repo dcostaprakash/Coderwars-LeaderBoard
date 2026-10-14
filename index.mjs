@@ -55,6 +55,7 @@ async function handleFormSubmit(event) {
     usernameInput.focus();
     return;
   }
+  document.getElementById("add-users").disabled = true;
  try {
 await getValidUsers();
 
@@ -131,6 +132,7 @@ async function getValidUsers() {
 function handleRankingChange() {
   state.selectedLanguage = rankingSelect.value;
   displayLeaderboard();
+    document.getElementById("add-users").disabled = false;
 }
 
 // Get the score for the selected ranking.
