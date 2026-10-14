@@ -85,6 +85,7 @@ await getValidUsers();
     if (state.validUsers.length > 0) {
       rankingSection.hidden = false;
       displayLeaderboard();
+          document.getElementById("add-users").disabled = false;
     }
 
     // Tell the user if any usernames were not found.
@@ -132,7 +133,6 @@ async function getValidUsers() {
 function handleRankingChange() {
   state.selectedLanguage = rankingSelect.value;
   displayLeaderboard();
-    document.getElementById("add-users").disabled = false;
 }
 
 // Get the score for the selected ranking.
