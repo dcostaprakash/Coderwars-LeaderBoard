@@ -1,4 +1,4 @@
-import { makeFetchRequest, sortValidUsers} from "./functions.js";
+import { makeFetchRequest, sortValidUsers } from "./functions.js";
 
 const state = {
   usernames: [],
@@ -10,27 +10,24 @@ const state = {
 const userForm = document.querySelector("#user-form");
 const usernameInput = document.querySelector("#usernames");
 const message = document.getElementById("message");
-const userList = document.querySelector("#user-list");
 const addUsersButton = document.getElementById("add-users");
 const rankingSection = document.querySelector("#ranking-section");
 const rankingSelect = document.querySelector("#ranking-select");
 const leaderboardBody = document.querySelector("#leaderboard-body");
 
-addUsersButton.addEventListener("click", handleFormSubmit);
+userForm.addEventListener("submit", handleFormSubmit);
 rankingSelect.addEventListener("change", handleRankingChange);
 
 export function getUsernames(input) {
   // Split the text wherever there is a comma.
   const usernames = input.split(",");
-
   // Remove spaces and ignore empty entries.
   return usernames
     .map((username) => username.trim())
     .filter((username) => username !== "");
 }
 
-/* Handle the form when the user clicks "Add users".
- */
+// Handle the form when the user clicks "Add users"
 async function handleFormSubmit(event) {
   // Stop the browser from refreshing the page.
   event.preventDefault();
@@ -40,12 +37,12 @@ async function handleFormSubmit(event) {
   message.className = "";
 
   // Remove the usernames displayed by the previous submission.
-    leaderboardBody.replaceChildren();
+  leaderboardBody.replaceChildren();
   rankingSection.hidden = true;
 
   // Read the input and convert it into a list.
-  state.usernames = getUsernames(usernameInput.value);
-    state.validUsers = [];
+  state.usernames = [...new Set(getUsernames(usernameInput.value))];
+  state.validUsers = [];
   state.languages = [];
 
   // Show an error if no usernames were entered.
@@ -55,78 +52,72 @@ async function handleFormSubmit(event) {
     usernameInput.focus();
     return;
   }
-  document.getElementById("add-users").disabled = true;
- try {
-await getValidUsers();
-
-   // Display each username in the list.
-    state.validUsers.forEach(function (user) {
-
-      // Find the languages available for the leaderboard.
-      Object.keys(user.ranks.languages || {}).forEach(function (language) {
-        if (!state.languages.includes(language)) {
-          state.languages.push(language);
-        }
-      });
-    });
-
-    // Add the ranking options to the dropdown.
-    rankingSelect.replaceChildren();
-    rankingSelect.add(new Option("Overall ranking", "overall"));
-
-    state.languages.forEach(function (language) {
-      rankingSelect.add(new Option(language, language));
-    });
-
-    // Show the overall ranking by default.
-    state.selectedLanguage = "overall";
-    rankingSelect.value = "overall";
-
-    if (state.validUsers.length > 0) {
-      rankingSection.hidden = false;
-      displayLeaderboard();
-          document.getElementById("add-users").disabled = false;
-    }
-
-    // Tell the user if any usernames were not found.
-    const invalidUsernames = state.usernames.filter(function (username) {
-      return !state.validUsers.some(function (user) {
-        return user.username.toLowerCase() === username.toLowerCase();
-      });
-    });
-
-    if (invalidUsernames.length > 0) {
-      message.textContent =
-        "Users not found: " + invalidUsernames.join(", ");
-    } else if (state.validUsers.length === 0) {
-      message.textContent = "No valid users were found. Please check the usernames.";
-    } else {
-      message.textContent = "Users loaded successfully.";
-    }
+  addUsersButton.disabled = true;
+  try {
+    await getValidUsers();
   } catch (error) {
     message.textContent =
       "Could not fetch Codewars data. Check your internet connection and try again.";
     message.className = "error";
+  } finally {
+    addUsersButton.disabled = false;
+  }
+
+  // Display each username in the list.
+  state.validUsers.forEach(function (user) {
+    // Find the languages available for the leaderboard.
+    Object.keys(user.ranks.languages || {}).forEach(function (language) {
+      if (!state.languages.includes(language)) {
+        state.languages.push(language);
+      }
+    });
+  });
+
+  // Add the ranking options to the dropdown.
+  rankingSelect.replaceChildren();
+  rankingSelect.add(new Option("Overall ranking", "overall"));
+
+  state.languages.forEach(function (language) {
+    rankingSelect.add(new Option(language, language));
+  });
+
+  // Show the overall ranking by default.
+  state.selectedLanguage = "overall";
+  rankingSelect.value = "overall";
+
+  if (state.validUsers.length > 0) {
+    rankingSection.hidden = false;
+    displayLeaderboard();
+  }
+
+  // Tell the user if any usernames were not found.
+  const invalidUsernames = state.usernames.filter(function (username) {
+    return !state.validUsers.some(function (user) {
+      return user.username.toLowerCase() === username.toLowerCase();
+    });
+  });
+
+  if (state.validUsers.length === 0) {
+    message.textContent =
+      "No valid users were found. Please check the usernames.";
+  } else if (invalidUsernames.length > 0) {
+    message.textContent = "Users not found: " + invalidUsernames.join(", ");
+  } else {
+    message.textContent = "Users loaded successfully.";
   }
 }
 
 async function getValidUsers() {
-  const invalidUsernames = [];
-
   for (const username of state.usernames) {
     const response = await makeFetchRequest(username);
 
     if (response.ok) {
       const userData = await response.json();
       state.validUsers.push(userData);
-    } else if (response.status === 404) {
-      invalidUsernames.push(username);
-    } else {
+    } else if (response.status !== 404) {
       throw new Error("Codewars API request failed.");
     }
   }
-
-  return invalidUsernames;
 }
 
 // Update the table when a different ranking is selected.

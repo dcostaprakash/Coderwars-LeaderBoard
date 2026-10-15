@@ -1,68 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-content="Compare Codewars users and explore their rankings across programming languages."
-/>
-  <title>Codewars leaderboard</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Compare Codewars users and explore their rankings across programming languages."
+    />
+    <title>Codewars leaderboard</title>
 
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-   <script src="index.mjs" type="module"></script>
-</head>
-<body>
-   <main>
-    <h1>Codewars Leaderboard</h1>
+    <script src="index.mjs" type="module"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Codewars Leaderboard</h1>
 
-    <p>Enter the Codewars usernames you want to compare.</p>
+      <p>Enter the Codewars usernames you want to compare.</p>
 
-    <!-- Form for entering usernames -->
-    <form id="user-form">
-      <label for="usernames">Codewars usernames</label>
+      <!-- Form for entering usernames -->
+      <form id="user-form">
+        <label for="usernames">Codewars usernames</label>
 
-      <input
-        type="text"
-        id="usernames"
-        name="usernames"
-        placeholder="CodeYourFuture,40thieves,SallyMcGrath" 
-        aria-describedby="input-help"
-      >
+        <input
+          type="text"
+          id="usernames"
+          name="usernames"
+          placeholder="CodeYourFuture,40thieves,SallyMcGrath"
+          aria-describedby="input-help"
+        />
 
-      <p id="input-help">
-        Separate usernames with commas.
-      </p>
+        <p id="input-help">Separate usernames with commas.</p>
 
-      <button type="button" id="add-users">Add users</button>
-    </form>
+        <button type="submit" id="add-users">Add users</button>
+      </form>
 
-    <!-- Display error or success messages -->
-    <p id="message" role="status" aria-live="polite"></p>
+      <!-- Display error or success messages -->
+      <p id="message" role="status" aria-live="polite"></p>
 
-    <!-- Display the ranking dropdown and leaderboard table -->
-    <section id="ranking-section" aria-labelledby="ranking-heading" hidden>
-      <h2 id="ranking-heading">Leaderboard rankings</h2>
+      <!-- Display the ranking dropdown and leaderboard table -->
+      <section id="ranking-section" aria-labelledby="ranking-heading" hidden>
+        <h2 id="ranking-heading">Leaderboard rankings</h2>
 
-      <label for="ranking-select">Choose a ranking</label>
+        <label for="ranking-select">Choose a ranking</label>
 
-      <select id="ranking-select">
-        <option value="overall">Overall ranking</option>
-      </select>
+        <select id="ranking-select">
+          <option value="overall">Overall ranking</option>
+        </select>
 
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Clan</th>
-            <th scope="col">Score</th>
-          </tr>
-        </thead>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Clan</th>
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
 
-        <tbody id="leaderboard-body"></tbody>
-      </table>
-    </section>
-      </main>
-</body>
-
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </section>
+    </main>
+  </body>
 </html>
