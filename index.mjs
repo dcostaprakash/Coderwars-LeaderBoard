@@ -57,8 +57,9 @@ async function handleFormSubmit(event) {
     await getValidUsers();
   } catch (error) {
     message.textContent =
-      "Unable to load Codewars data. Please try again later.";
+      "Unable to load Codewars data. Please check your connection and try again.";
     message.className = "error";
+    return;
   } finally {
     addUsersButton.disabled = false;
   }
