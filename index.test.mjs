@@ -51,3 +51,16 @@ test("sorts users by language ranking", () => {
   assert.equal(sortedUsers[1].username, "user1");
   assert.equal(sortedUsers[2].username, "user3");
 });
+
+test("doesn't modify the original array", () => {
+  const users = [
+    { username: "user1", ranks: { overall: { score: 100 } } },
+    { username: "user2", ranks: { overall: { score: 200 } } },
+    { username: "user3", ranks: { overall: { score: 50 } } },
+  ];
+
+  const originalUsers = [...users];
+  sortValidUsers(users, "overall");
+
+  assert.deepEqual(users, originalUsers);
+});

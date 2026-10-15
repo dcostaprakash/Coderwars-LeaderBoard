@@ -45,7 +45,8 @@ button {
 
 /*  Clearly show when the button receives keyboard focus */
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible {
   outline: 3px solid #e09b00;
   outline-offset: 2px;
 }

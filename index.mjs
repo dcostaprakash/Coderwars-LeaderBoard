@@ -57,7 +57,7 @@ async function handleFormSubmit(event) {
     await getValidUsers();
   } catch (error) {
     message.textContent =
-      "Could not fetch Codewars data. Check your internet connection and try again.";
+      "Unable to load Codewars data. Please try again later.";
     message.className = "error";
   } finally {
     addUsersButton.disabled = false;
@@ -163,5 +163,8 @@ function displayLeaderboard() {
 
   if (users.length === 0) {
     message.textContent = "No users have a ranking for this selection.";
+  } else {
+    message.textContent = "";
+    message.className = "";
   }
 }
